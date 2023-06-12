@@ -1,7 +1,7 @@
 from typing import Any
 import pygame
 
-from pygame.sprite import _Group, Sprite
+from pygame.sprite import Group, Sprite
 
 
 class Bullet(Sprite):
