@@ -1,3 +1,4 @@
+# Imports Syntax.
 import sys
 import pygame
 from settings import Settings
@@ -5,6 +6,8 @@ from ship import Ship
 import game_functions as gf
 from pygame.sprite import Group  # changed _Group to Group
 
+
+# Start the game function.
 try:
     def run_game():
         # Initialize the game and create the a screen object.
@@ -24,7 +27,8 @@ try:
             bullets.update()
             gf.update_screen(ai_settings, screen, ship, bullets)
 
-    run_game()
+    if __name__ == "__main__":
+        run_game()
 except Exception as e:
     print(e)
     # handle the exception

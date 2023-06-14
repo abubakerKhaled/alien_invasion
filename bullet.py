@@ -1,7 +1,6 @@
-from typing import Any
 import pygame
 
-from pygame.sprite import Group, Sprite
+from pygame.sprite import Sprite
 
 
 class Bullet(Sprite):
@@ -9,11 +8,13 @@ class Bullet(Sprite):
 
     def __init__(self, ai_settings, screen, ship):
         """Create a bullet object at the ship's current position."""
-        super(Bullet, self).__init__()
+        super().__init__()
         self.screen = screen
 
         # Create a bullet rect at (0, 0) and then set correct position.
-        self.rect = (0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
+        # Note: (0, 0) is the top left corner of the screen.
+        self.rect = pygame.Rect(
+            0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
         self.rect.centerx = ship.rect.centerx
         self.rect.top = ship.rect.top
 

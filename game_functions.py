@@ -29,6 +29,8 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets):
         # Create new bullet and add it to the bullets group.
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
+    elif event.key == pygame.K_w and event.mod & pygame.KMOD_CTRL:
+        sys.exit()
 
 
 def check_keyup_event(event, ship):
