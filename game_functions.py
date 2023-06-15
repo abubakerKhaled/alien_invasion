@@ -64,11 +64,13 @@ def update_screen(ai_settings, screen, ship, bullets):
     pygame.display.flip()
 
 
-def remove_bullets(bullets):
+def remove_bullets(bullets, ai_settings):
     """Remove the bullets that have disappeared from the screen."""
     # Loop through a copy of the group
-    for bullet in bullets.copy():
+    for bullet in [b for b in bullets]:
         # Check if the bullet has disappeared
-        if bullet.rect.bottom <= 0:
+        if bullet.rect.bottom <= ai_settings.SCREEN_TOP:
             # Remove the bullet from the group
             bullets.remove(bullet)
+
+    print(len(bullets))
