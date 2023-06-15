@@ -10,9 +10,13 @@ from pygame.sprite import Group  # changed _Group to Group
 # Start the game function.
 try:
     def run_game():
+
         # Initialize the game and create the a screen object.
         pygame.init()
+
+        # Instance of the settings class.
         ai_settings = Settings()
+
         screen = pygame.display.set_mode(
             (ai_settings.screen_width, ai_settings.screen_height))
         pygame.display.set_caption('Alien Invasion')
