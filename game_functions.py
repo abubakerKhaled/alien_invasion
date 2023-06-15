@@ -50,7 +50,10 @@ def check_keyup_event(event, ship):
 def update_screen(ai_settings, screen, ship, bullets):
     """Redraw the screen during each pass through the loop."""
 
+    # Fills the entire screen with the color.
     screen.fill(ai_settings.bg_color)
+
+    # draw the ship on the screen.
     ship.blitme()
 
     # Redraw all bullets behind ship and aliens.
