@@ -29,8 +29,13 @@ try:
             # Call the check events function to handle events.
             gf.check_events(ai_settings, screen, ship, bullets)
 
+            # Update the movement of the ship based on the movements flags.
             ship.update()
+
+            # Update the bullets up to the screen.
             bullets.update()
+
+            # Redraw the screen during each pass through the game loop.
             gf.update_screen(ai_settings, screen, ship, bullets)
 
     if __name__ == "__main__":
