@@ -73,5 +73,3 @@ def remove_bullets(bullets, ai_settings):
         if bullet.rect.bottom <= ai_settings.SCREEN_TOP:
             # Remove the bullet from the group
             bullets.remove(bullet)
-
-    print(len(bullets))
