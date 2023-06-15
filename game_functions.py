@@ -30,12 +30,17 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets):
 
     elif event.key == pygame.K_SPACE:
         # Create new bullet and add it to the bullets group.
-        if len(bullets) < ai_settings.bullets_allowed:
-            new_bullet = Bullet(ai_settings, screen, ship)
-            bullets.add(new_bullet)
+        fire_bullet(ai_settings, screen, ship, bullets)
 
     elif event.key == pygame.K_w and event.mod & pygame.KMOD_CTRL:
         sys.exit()
+
+
+def fire_bullet(ai_settings, screen, ship, bullets):
+    """Fire bullets if limit not reached yet."""
+    if len(bullets) < ai_settings.bullets_allowed:
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
 
 
 def check_keyup_event(event, ship):
