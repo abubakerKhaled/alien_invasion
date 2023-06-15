@@ -39,6 +39,9 @@ try:
             # Update the bullets up to the screen.
             bullets.update()
 
+            # Get rid of bullets that have already been disappeared.
+            gf.remove_bullets(bullets)
+
             # Redraw the screen during each pass through the game loop.
             gf.update_screen(ai_settings, screen, ship, bullets)
 
