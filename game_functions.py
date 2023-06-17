@@ -87,7 +87,7 @@ def create_fleet(ai_settings, screen, aliens):
     # Spacing between each alien is equal to the number of alean width.
     alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
-    available_space_x = ai_settings.screen_width - 2 * alien_width
+    available_space_x = (ai_settings.screen_width - 1 * alien_width)
     number_aliens_x = int(available_space_x / (2 * alien_width))
 
     # Create the first row of aliens.
