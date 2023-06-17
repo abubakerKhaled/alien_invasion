@@ -4,6 +4,12 @@ from bullet import Bullet
 from alien import Alien
 
 
+# Define some constants for the spacing between aliens
+ALIEN_SPACING_X = 2  # The horizontal spacing is equal to 2 times the alien width
+ALIEN_SPACING_Y = 2  # The vertical spacing is equal to 2 times the alien height
+ALIEN_MARGIN_Y = 0.5  # The top margin is equal to 3 times the alien height
+
+
 def check_events(ai_settings, screen, ship, bullets):
     """Respond to keypresses and mouse events."""
     # Watch for keyboard and mouse events.
@@ -81,42 +87,57 @@ def remove_bullets(bullets, ai_settings):
             bullet.kill()
 
 
-def get_number_of_aliens(ai_settings, alien_width):
+def get_alien_count_per_row(ai_settings, alien):
     """Determines the number of aliens that fit in a row."""
-    available_space_x = (ai_settings.screen_width - 2 * alien_width)
-    number_aliens_x = int(available_space_x / (2 * alien_width))
-    return number_aliens_x
+    # Get the width of an alien from its rect attribute
+    alien_width = alien.rect.width
+    # Calculate the available space for aliens by subtracting some margin from both sides
+    available_space_x = (ai_settings.screen_width -
+                         ALIEN_SPACING_X * alien_width)
+    # Calculate the number of aliens that can fit in one row by dividing the available space by the spacing
+    alien_count_x = int(available_space_x / (ALIEN_SPACING_X * alien_width))
+    return alien_count_x
 
 
-def get_number_rows(ai_settings, ship_height, alien_height):
+def get_row_count(ai_settings, ship, alien):
     """Determine the number of rows of aliens that fit on the screen."""
+    # Get the height of an alien and a ship from their rect attributes
+    alien_height = alien.rect.height
+    ship_height = ship.rect.height
+    # Calculate the available space for aliens by subtracting some margin from the top and bottom
     available_space_y = (ai_settings.screen_height -
-                         (3 * alien_height) - ship_height)
-    number_rows = int(available_space_y / (2 * alien_height))
-    return number_rows
+                         (ALIEN_MARGIN_Y + ALIEN_SPACING_Y) * alien_height - ship_height)
+    # Calculate the number of rows that can fit on the screen by dividing the available space by the spacing
+    row_count = int(available_space_y / (ALIEN_SPACING_Y * alien_height))
+    return row_count
 
 
-def create_alien(ai_settings, screen, aliens, alien_number, alien_width, row_number):
-    """Creates an alien and place it in the row."""
-    # Create an alien and place it in the row.
+def create_alien(ai_settings, screen, aliens, x, y):
+    """Creates an alien and place it at the given position."""
+    # Create an alien object
     alien = Alien(ai_settings, screen)
-    alien.x = alien_width + 2 * alien_width * alien_number
-    alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+    # Set its x and y coordinates using its rect attribute
+    alien.rect.x = x
+    alien.rect.y = y
+    # Add the alien to the group of aliens
     aliens.add(alien)
 
 
 def create_fleet(ai_settings, screen, ship, aliens):
     """Create a full fleet of aliens."""
-    # Create an alean and find the number of aleans in a row.
-    # Spacing between each alien is equal to the number of alean width.
+    # Create an alean object to get its size and use it as a template
     alien = Alien(ai_settings, screen)
-    number_aliens_x = get_number_of_aliens(ai_settings, alien.rect.width)
-    number_rows = get_number_rows(
-        ai_settings, ship.rect.height, alien.rect.height)
 
-    # Create the fleet of aliens.
-    for row_number in range(number_rows):
-        for alien_number in range(number_aliens_x):
-            create_alien(ai_settings, screen, aliens,
-                         alien_number, alien.rect.width, row_number)
+    # Get the number of aliens per row and the number of rows from the helper functions
+    alien_count_x = get_alien_count_per_row(ai_settings, alien)
+    row_count = get_row_count(ai_settings, ship, alien)
+
+    # Create the fleet of aliens using two nested loops
+    for row_index in range(row_count):
+        for alien_index in range(alien_count_x):
+            # Calculate the x and y coordinates of each alien using its width and height and the spacing constants
+            x = ALIEN_SPACING_X * alien.rect.width * (0.5 + alien_index)
+            y = ALIEN_SPACING_Y * alien.rect.height * \
+                (0.5 + row_index) + ALIEN_MARGIN_Y * alien.rect.height
+            # Call the create_alien function and pass the coordinates and other parameters
+            create_alien(ai_settings, screen, aliens, x, y)
