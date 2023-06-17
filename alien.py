@@ -16,12 +16,12 @@ class Alien(Sprite):
         self.rect = self.image.get_rect()
 
         # Start each new alien near the top left of the screen.
-        self.rect.x = self.screen.width
-        self.rect.y = self.screen.height
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
 
         # Store the alien's exact position.
         self.x = float(self.rect.x)
 
-    def blime(self):
+    def blitme(self):
         """Draw the alien at its current position."""
         self.screen.blime(self.image, self.rect)
