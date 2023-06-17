@@ -32,7 +32,7 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets):
         # Create new bullet and add it to the bullets group.
         fire_bullet(ai_settings, screen, ship, bullets)
 
-    elif event.key == pygame.K_w and event.mod & pygame.KMOD_CTRL:
+    elif (event.key == pygame.K_w and event.mod & pygame.KMOD_CTRL) or event.key == pygame.K_q:
         sys.exit()
 
 
