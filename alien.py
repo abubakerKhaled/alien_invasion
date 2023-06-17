@@ -24,4 +24,4 @@ class Alien(Sprite):
 
     def blitme(self):
         """Draw the alien at its current position."""
-        self.screen.blime(self.image, self.rect)
+        self.screen.blit(self.image, self.rect)

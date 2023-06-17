@@ -78,4 +78,4 @@ def remove_bullets(bullets, ai_settings):
         # Check if the bullet has disappeared
         if bullet.rect.bottom <= ai_settings.SCREEN_TOP:
             # Remove the bullet from the group
-            bullets.remove(bullet)
+            bullet.kill()
