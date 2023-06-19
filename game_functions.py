@@ -141,3 +141,8 @@ def create_fleet(ai_settings, screen, ship, aliens):
                 (0.5 + row_index) + ALIEN_MARGIN_Y * alien.rect.height
             # Call the create_alien function and pass the coordinates and other parameters
             create_alien(ai_settings, screen, aliens, x, y)
+
+
+def update_aliens(aliens):
+    """Update the positions of all aliens in the fleet."""
+    aliens.update()
