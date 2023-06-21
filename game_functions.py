@@ -91,9 +91,9 @@ def get_alien_count_per_row(ai_settings, alien):
     """Determines the number of aliens that fit in a row."""
     # Get the width of an alien from its rect attribute
     alien_width = alien.rect.width
-    # Calculate the available space for aliens by subtracting some margin from both sides
+    # Calculate the available space for aliens by subtracting some margin from one side
     available_space_x = (ai_settings.screen_width -
-                         ALIEN_SPACING_X * alien_width)
+                         (ALIEN_SPACING_X + 1) * alien_width)
     # Calculate the number of aliens that can fit in one row by dividing the available space by the spacing
     alien_count_x = int(available_space_x / (ALIEN_SPACING_X * alien_width))
     return alien_count_x
