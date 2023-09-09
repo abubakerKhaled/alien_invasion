@@ -40,6 +40,8 @@ try:
 
             # Update the movement of the ship based on the movements flags.
             ship.update()
+            
+            gf.update_bullets(aliens, bullets, ai_settings, screen, ship)
 
             # Update the bullets up to the screen.
             bullets.update()
