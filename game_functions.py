@@ -172,7 +172,7 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= -1
 
 
-def update_aliens(ai_settings, aliens):
+def update_aliens(ai_settings, aliens, ship):
     """
     Check if the fleet is at an edge,
         and then update the positions of all aliens in the fleet.
@@ -181,6 +181,10 @@ def update_aliens(ai_settings, aliens):
     check_fleet_edges(ai_settings, aliens)
     # Move all aliens horizontally according to their speed and direction
     aliens.update()
+    
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("Ship hit!!!")
+        
 
 def update_bullets(aliens, bullets, ai_settings, screen, ship):
     # Check for any bullets that have hit the aliens.
