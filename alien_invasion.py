@@ -41,22 +41,24 @@ try:
 
             # Call the check events function to handle events.
             gf.check_events(ai_settings, screen, ship, bullets)
-
-            # Update the movement of the ship based on the movements flags.
-            ship.update()
             
-            gf.update_bullets(aliens, bullets, ai_settings, screen, ship)
+            if stats.game_active:
+                
+                # Update the movement of the ship based on the movements flags.
+                ship.update()
+                
+                gf.update_bullets(aliens, bullets, ai_settings, screen, ship)
 
-            # Update the bullets up to the screen.
-            bullets.update()
+                # Update the bullets up to the screen.
+                bullets.update()
 
-            # Get rid of bullets that have already been disappeared.
-            gf.remove_bullets(bullets, ai_settings)
+                # Get rid of bullets that have already been disappeared.
+                gf.remove_bullets(bullets, ai_settings)
 
-            gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+                gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-            # Redraw the screen during each pass through the game loop.
-            gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+                # Redraw the screen during each pass through the game loop.
+                gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
     if __name__ == "__main__":
         run_game()
