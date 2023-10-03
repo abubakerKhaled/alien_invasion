@@ -8,6 +8,9 @@ class GameStats():
     self.ai_settings = ai_settings
     self.reset_stats()
     
+    # Start Alien Invasion as an active state.
+    self.game_active = True
+    
   def reset_stats(self):
     """Initialize statistics that can change during the game."""
     self.left_ships = self.ai_settings.left_ships
