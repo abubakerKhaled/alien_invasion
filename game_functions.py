@@ -58,7 +58,7 @@ def check_keyup_event(event, ship):
         ship.moving_left = False
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton):
     """Redraw the screen during each pass through the loop."""
 
     # Fills the entire screen with the color.
@@ -72,6 +72,10 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     # Redraw all bullets behind ship and aliens.
     for bullet in bullets.sprites():
         bullet.draw_bullet()
+        
+    # Draw the play button if the game is inactive.
+    if not stats.game_active:
+        play_buttton.draw_button()
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()

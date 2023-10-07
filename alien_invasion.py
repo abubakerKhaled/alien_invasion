@@ -5,7 +5,7 @@ from ship import Ship
 import game_functions as gf
 from pygame.sprite import Group
 from game_stats import GameStats
-
+from button import Button
 
 # Start the game function.
 try:
@@ -29,6 +29,9 @@ try:
 
         # Make a group of aliens.
         aliens = Group()
+        
+        # Make the play_button 
+        play_buttton = Button(ai_settings, screen, "PLAY")
         
         # Make a new intstance of the GameStats
         stats = GameStats(ai_settings)
@@ -57,8 +60,8 @@ try:
 
                 gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-                # Redraw the screen during each pass through the game loop.
-                gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+            # Redraw the screen during each pass through the game loop.
+            gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton)
 
     if __name__ == "__main__":
         run_game()
