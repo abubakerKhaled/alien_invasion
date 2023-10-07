@@ -10,7 +10,7 @@ ALIEN_SPACING_Y = 2  # The vertical spacing is equal to 2 times the alien height
 ALIEN_MARGIN_Y = 0.5  # The top margin is equal to 3 times the alien height
 
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, screen, ship, bullets, stats, play_buttton):
     """Respond to keypresses and mouse events."""
     # Watch for keyboard and mouse events.
     for event in pygame.event.get():
@@ -22,6 +22,16 @@ def check_events(ai_settings, screen, ship, bullets):
 
         elif event.type == pygame.KEYUP:
             check_keyup_event(event, ship)
+        
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_botton(stats, play_buttton, mouse_x, mouse_y)
+            
+
+def check_play_botton(stats, play_buttton, mouse_x, mouse_y):
+    """Start new game when the player clicks play."""
+    if play_buttton.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True
 
 
 def check_keydown_event(event, ai_settings, screen, ship, bullets):

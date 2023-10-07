@@ -43,7 +43,7 @@ try:
         while True:
 
             # Call the check events function to handle events.
-            gf.check_events(ai_settings, screen, ship, bullets)
+            gf.check_events(ai_settings, screen, ship, bullets, stats, play_buttton)
             
             if stats.game_active:
                 
