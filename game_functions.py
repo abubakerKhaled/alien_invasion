@@ -30,7 +30,8 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_buttton, aliens
 
 def check_play_botton(ai_settings, screen, ship, bullets, stats, play_buttton, aliens, mouse_x, mouse_y):
     """Start new game when the player clicks play."""
-    if play_buttton.rect.collidepoint(mouse_x, mouse_y):
+    button_clicked = play_buttton.rect.collidepoint(mouse_x, mouse_y)
+    if  button_clicked and not stats.game_active:
         # Reset the game statistics.
         stats.reset_stats()
         stats.game_active = True
