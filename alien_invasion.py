@@ -6,6 +6,7 @@ import game_functions as gf
 from pygame.sprite import Group
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 # Start the game function.
 try:
@@ -33,8 +34,9 @@ try:
         # Make the play_button 
         play_buttton = Button(ai_settings, screen, "PLAY")
         
-        # Make a new intstance of the GameStats
+        # Make a new intstance of the GameStats, and the scoreboard.
         stats = GameStats(ai_settings)
+        scoreboard = Scoreboard(ai_settings, screen, stats)
 
         # Create the fleet of aliens.
         gf.create_fleet(ai_settings, screen, ship, aliens)
@@ -61,7 +63,7 @@ try:
                 gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
             # Redraw the screen during each pass through the game loop.
-            gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton)
+            gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton, scoreboard)
 
     if __name__ == "__main__":
         run_game()

@@ -89,7 +89,7 @@ def check_keyup_event(event, ship):
         ship.moving_left = False
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton):
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton, scoreboard):
     """Redraw the screen during each pass through the loop."""
 
     # Fills the entire screen with the color.
@@ -99,6 +99,9 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttto
     ship.blitme()
 
     aliens.draw(screen)
+
+    # Draw the score information.
+    scoreboard.show_score()
 
     # Redraw all bullets behind ship and aliens.
     for bullet in bullets.sprites():
