@@ -14,3 +14,4 @@ class GameStats():
   def reset_stats(self):
     """Initialize statistics that can change during the game."""
     self.left_ships = self.ai_settings.left_ships
+    self.score = 0
