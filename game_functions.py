@@ -4,11 +4,6 @@ from bullet import Bullet
 from alien import Alien
 from time import sleep
 
-# Define some constants for the spacing between aliens
-ALIEN_SPACING_X = 2  # The horizontal spacing is equal to 2 times the alien width
-ALIEN_SPACING_Y = 2  # The vertical spacing is equal to 2 times the alien height
-ALIEN_MARGIN_Y = 0.5  # The top margin is equal to 3 times the alien height
-
 
 def start_game(ai_settings, screen, ship, bullets, stats, aliens):
     pygame.mouse.set_visible(False)
@@ -62,8 +57,9 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens
         ship.moving_left = True
 
     elif event.key == pygame.K_SPACE:
-        # Create new bullet and add it to the bullets group.
-        fire_bullet(ai_settings, screen, ship, bullets)
+        if stats.game_active == True:
+            # Create new bullet and add it to the bullets group.
+            fire_bullet(ai_settings, screen, ship, bullets)
     
     elif event.key == pygame.K_p:
         start_game(ai_settings, screen, ship, bullets, stats, aliens)
@@ -261,9 +257,9 @@ def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     # Look for aliens hitting the bottom of the screen.    
     check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
 
-def update_bullets(aliens, bullets, ai_settings, screen, ship):
+def update_bullets(ai_settings, screen, ship, aliens, bullets, sb, stats):
     # Check for any bullets that have hit the aliens.
-    check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets)
+    check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb, stats)
     
     # Check if the aliens is destroyed or not.
     if len(aliens) == 0:
@@ -272,9 +268,13 @@ def update_bullets(aliens, bullets, ai_settings, screen, ship):
         ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
         
-def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb, stats):
     """Respond to bullet-alien collisions."""
     # Remove any bullets and aliens that have collided.
     # If so, get rid of the bullet and the alien.
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    
+    if collisions:
+        stats.score += ai_settings.alien_points
+        sb.prep_score()
     
