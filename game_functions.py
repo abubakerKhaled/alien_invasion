@@ -3,6 +3,7 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 from time import sleep
+import pickle
 
 
 def start_game(ai_settings, screen, ship, bullets, stats, aliens):
@@ -20,15 +21,17 @@ def start_game(ai_settings, screen, ship, bullets, stats, aliens):
     ship.center_ship()
     
 
-def check_events(ai_settings, screen, ship, bullets, stats, play_buttton, aliens):
+def check_events(ai_settings, screen, ship, bullets, stats, play_buttton, aliens,sb):
     """Respond to keypresses and mouse events."""
     # Watch for keyboard and mouse events.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            stats.game_active = False
+            check_high_score(stats, sb)
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
-            check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens)
+            check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens, sb)
 
         elif event.type == pygame.KEYUP:
             check_keyup_event(event, ship)
@@ -47,7 +50,7 @@ def check_play_botton(ai_settings, screen, ship, bullets, stats, play_buttton, a
         start_game(ai_settings, screen, ship, bullets, stats, aliens)
 
 
-def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens):
+def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens, sb):
     """Respond to keypresses."""
 
     if event.key == pygame.K_RIGHT:
@@ -65,6 +68,8 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens
         start_game(ai_settings, screen, ship, bullets, stats, aliens)
 
     elif (event.key == pygame.K_w and event.mod & pygame.KMOD_CTRL) or event.key == pygame.K_q:
+        stats.game_active = False
+        check_high_score(stats, sb)
         sys.exit()
 
 
@@ -119,31 +124,6 @@ def remove_bullets(bullets, ai_settings):
         if bullet.rect.bottom <= ai_settings.SCREEN_TOP:
             # Remove the bullet from the group
             bullet.kill()
-
-
-# def get_alien_count_per_row(ai_settings, alien):
-#     """Determines the number of aliens that fit in a row."""
-#     # Get the width of an alien from its rect attribute
-#     alien_width = alien.rect.width
-#     # Calculate the available space for aliens by subtracting some margin from one side
-#     available_space_x = (ai_settings.screen_width -
-#                          (2 * alien_width))
-#     # Calculate the number of aliens that can fit in one row by dividing the available space by the spacing
-#     alien_count_x = int(available_space_x / (2 * alien_width))
-#     return alien_count_x
-
-
-# def get_row_count(ai_settings, ship, alien):
-#     """Determine the number of rows of aliens that fit on the screen."""
-#     # Get the height of an alien and a ship from their rect attributes
-#     alien_height = alien.rect.height
-#     ship_height = ship.rect.height
-#     # Calculate the available space for aliens by subtracting some margin from the top and bottom
-#     available_space_y = (ai_settings.screen_height -
-#                          (ALIEN_MARGIN_Y + ALIEN_SPACING_Y) * alien_height - ship_height)
-#     # Calculate the number of rows that can fit on the screen by dividing the available space by the spacing
-#     row_count = int(available_space_y / (ALIEN_SPACING_Y * alien_height))
-#     return row_count
 
 
 def get_number_aliens_x(ai_settings, alien_width):
@@ -268,6 +248,18 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets, sb, stats):
         ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
         
+        
+def check_high_score(stats, sb):
+    """Check to see if there's a new high score."""
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
+        # save the current high score to a file only when the game is over
+        if stats.game_active == False:
+            with open('high_score.dat', 'wb') as f:
+                pickle.dump(stats.high_score, f)
+        
+    
 def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb, stats):
     """Respond to bullet-alien collisions."""
     # Remove any bullets and aliens that have collided.
@@ -276,6 +268,44 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb
     
     if collisions:
         for alien in collisions.values():
-            stats.score += ai_settings.alien_points * len(alien)
-            sb.prep_score()
-    
+            # update the score only when it changes
+            if stats.score != stats.score + ai_settings.alien_points * len(alien):
+                stats.score += ai_settings.alien_points * len(alien)
+                sb.prep_score()
+                # check the high score only when the score is updated
+                check_high_score(stats, sb)
+
+
+
+
+
+
+
+
+
+# OLD CODE TO REVIEW.
+
+
+# def get_alien_count_per_row(ai_settings, alien):
+#     """Determines the number of aliens that fit in a row."""
+#     # Get the width of an alien from its rect attribute
+#     alien_width = alien.rect.width
+#     # Calculate the available space for aliens by subtracting some margin from one side
+#     available_space_x = (ai_settings.screen_width -
+#                          (2 * alien_width))
+#     # Calculate the number of aliens that can fit in one row by dividing the available space by the spacing
+#     alien_count_x = int(available_space_x / (2 * alien_width))
+#     return alien_count_x
+
+
+# def get_row_count(ai_settings, ship, alien):
+#     """Determine the number of rows of aliens that fit on the screen."""
+#     # Get the height of an alien and a ship from their rect attributes
+#     alien_height = alien.rect.height
+#     ship_height = ship.rect.height
+#     # Calculate the available space for aliens by subtracting some margin from the top and bottom
+#     available_space_y = (ai_settings.screen_height -
+#                          (ALIEN_MARGIN_Y + ALIEN_SPACING_Y) * alien_height - ship_height)
+#     # Calculate the number of rows that can fit on the screen by dividing the available space by the spacing
+#     row_count = int(available_space_y / (ALIEN_SPACING_Y * alien_height))
+#     return row_count
