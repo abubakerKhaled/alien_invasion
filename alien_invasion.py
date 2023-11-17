@@ -24,7 +24,7 @@ try:
 
         # Make a ship
         ship = Ship(ai_settings, screen)
-
+        
         # Make a group to store the bullets in.
         bullets = Group()
 
@@ -60,13 +60,14 @@ try:
                 # Get rid of bullets that have already been disappeared.
                 gf.remove_bullets(bullets, ai_settings)
 
-                gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+                gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets, scoreboard)
 
             # Redraw the screen during each pass through the game loop.
             gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_buttton, scoreboard)
 
     if __name__ == "__main__":
         run_game()
+        
 except Exception as e:
     print(e)
     # handle the exception
