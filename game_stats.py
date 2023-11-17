@@ -16,12 +16,12 @@ class GameStats():
     # Load the previous high score if it exists.
     try:
     # use the same file name as in check_high_score function
-      with open('high_score.txt', 'rb') as f:
+      with open('h_score.txt', 'rb') as f:
         self.high_score = pickle.load(f)
     except FileNotFoundError:
     # if the file doesn't exist, set the high score to zero and create the file
       self.high_score = 0
-      with open('high_score.txt', 'wb') as f:
+      with open('h_score.txt', 'wb') as f:
         pickle.dump(self.high_score, f)
 
     

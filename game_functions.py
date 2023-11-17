@@ -306,7 +306,7 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb
                 check_high_score(stats, sb)
 
 def save_high_score(high_score):
-    with open('high_score.txt', 'wb') as f:
+    with open('h_score.txt', 'wb') as f:
         pickle.dump(high_score, f)
 
 
