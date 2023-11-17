@@ -28,6 +28,7 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_buttton, aliens
         if event.type == pygame.QUIT:
             stats.game_active = False
             check_high_score(stats, sb)
+            save_high_score(stats.high_score)  # Save high score before exiting
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
@@ -83,6 +84,7 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, aliens
     elif (event.key == pygame.K_w and event.mod & pygame.KMOD_CTRL) or event.key == pygame.K_q:
         stats.game_active = False
         check_high_score(stats, sb)
+        save_high_score(stats.high_score)  # Save high score before exiting
         sys.exit()
 
 
@@ -283,9 +285,9 @@ def check_high_score(stats, sb):
         stats.high_score = stats.score
         sb.prep_high_score()
         # save the current high score to a file only when the game is over
-        if stats.game_active == False:
-            with open('high_score.txt', 'wb') as f:
-                pickle.dump(stats.high_score, f)
+        if not stats.game_active:
+            save_high_score(stats.high_score)
+
         
     
 def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb, stats):
@@ -302,6 +304,11 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets, sb
                 sb.prep_score()
                 # check the high score only when the score is updated
                 check_high_score(stats, sb)
+
+def save_high_score(high_score):
+    with open('high_score.txt', 'wb') as f:
+        pickle.dump(high_score, f)
+
 
 # OLD CODE TO REVIEW.
 
