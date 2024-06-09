@@ -16,7 +16,7 @@ class Ship(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         
-        # print(self.rect.height)
+
 
         # Start each new ship at the bottom center of the screen.
         self.rect.centerx = self.screen_rect.centerx
